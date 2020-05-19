@@ -24,6 +24,7 @@ def run_training():
     train_op = model.training(train_loss, LEARNING_RATE)
     train_acc = model.evaluation(train_logits, train_label_batch)
 
+
     summery_op = tf.summary.merge_all()
     with tf.Session() as sess:
         train_writer = tf.summary.FileWriter(logs_summary_dir, graph=sess.graph, session=sess)

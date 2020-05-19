@@ -24,9 +24,9 @@ def pre_process():
     for i in range(0,10):
         class_names[i] = chr(i + 48)
     for i in range(10,36):
-        class_names[i] = chr(i + 65)
+        class_names[i] = chr(i + 65 - 10)
     for i in range(36,62):
-        class_names[i] = chr(i + 97)
+        class_names[i] = chr(i + 97 - 36)
 
 def run_single_test():
     global class_names

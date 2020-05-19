@@ -9,14 +9,14 @@ IMG_W = 28
 IMG_H = 28
 BATCH_SIZE = 32
 CAPACITY = 4 * BATCH_SIZE
-MAX_STEPS = math.ceil(data_loader.total_need / BATCH_SIZE)
+MAX_STEPS = 10000
 
 eval_log_dir = './log/summary/test/'
 eval_dir = 'C:/datasets/emnist/test/'
 check_point_path = './log/model/'
 eva, eva_labels = data_loader.get_files(eval_dir)
 eval_batch, eval_label_batch = data_loader.get_batch(eva, eva_labels, IMG_H, IMG_W, BATCH_SIZE, CAPACITY)
-eval_logits = model.inference(eval_batch, BATCH_SIZE, N_CLASSES, training=False)
+eval_logits, _ = model.inference(eval_batch, BATCH_SIZE, N_CLASSES, training=False)
 eval_acc = model.evaluation(eval_logits, eval_label_batch)
 eval_loss = model.losses(eval_logits, eval_label_batch)
 summery_op = tf.summary.merge_all()
