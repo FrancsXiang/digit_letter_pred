@@ -10,6 +10,7 @@ def inference(inputs, batch_size, num_classes, training=True):
                             normalizer_fn=None,
                             weights_regularizer=slim.l2_regularizer(0.05),
                             activation_fn=tf.nn.relu,
+                            trainable=training,
                             outputs_collections=end_points_collection):
             cnv1 = slim.conv2d(inputs, 16, [3, 3], stride=1, scope='cnv1')
             cnv2 = slim.conv2d(cnv1, 32, [1, 1], stride=1, scope='cnv2')
@@ -18,9 +19,9 @@ def inference(inputs, batch_size, num_classes, training=True):
             cnv4 = slim.conv2d(cnv3, 64, [1, 1], stride=1, scope='cnv4')
             max_pool2 = slim.max_pool2d(cnv4, [3, 3], stride=2, scope='maxpool2')
             flat = slim.flatten(max_pool2, scope='flatten')
-            fc_1 = slim.fully_connected(flat, 128, scope='fc_1')
-            drop1 = slim.dropout(fc_1, scope='drop1')
-            fc_2 = slim.fully_connected(drop1, num_classes, scope='fc_2')
+            fc_1 = slim.fully_connected(flat, 128, scope='fc_1', trainable=training)
+            drop1 = slim.dropout(fc_1, scope='drop1', is_training=training)
+            fc_2 = slim.fully_connected(drop1, num_classes, scope='fc_2', trainable=training)
             end_points = utils.convert_collection_to_dict(end_points_collection)
             return fc_2, end_points_collection
 
